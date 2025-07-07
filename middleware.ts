@@ -33,8 +33,10 @@ export async function middleware(request: NextRequest) {
   );
 
   if (isProtected) {
-    const token = await getToken({ req: request });
-
+    // const token = await getToken({ req: request });
+    const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+    console.log("JWT Secret:", process.env.NEXTAUTH_SECRET);
+    
     if (!token) {
       const signInUrl = new URL("/sign-in", request.url);
       return NextResponse.redirect(signInUrl);
