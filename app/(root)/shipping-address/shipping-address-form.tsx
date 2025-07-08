@@ -30,7 +30,8 @@ const ShippingAddresForm = ({ address }: { address: shippingAddress }) => {
 
   const [isPending, startTransition] = useTransition();
   const onSubmit = (values) =>{
-  console.log(values);
+
+  // router.push('/payment-method')
   }
 
   return (
