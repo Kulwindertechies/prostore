@@ -1,6 +1,5 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { shippingAddress } from "@/types";
 import { toast } from "sonner";
 import { useTransition } from "react";
 import { shippingAddress } from "@/types";
@@ -20,6 +19,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { ArrowRight, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { updateUserShippingAddress } from "@/lib/actions/user.actions";
+
 const ShippingAddresForm = ({ address }: { address: shippingAddress }) => {
   const router = useRouter();
 
@@ -29,9 +30,18 @@ const ShippingAddresForm = ({ address }: { address: shippingAddress }) => {
   });
 
   const [isPending, startTransition] = useTransition();
-  const onSubmit = (values) =>{
+  const onSubmit = async(values :any) =>{
+  console.log(values); 
+  const res = await updateUserShippingAddress(values);
+  if (!res.success) {
+    toast.error(res.message);
+    return;
+  } 
 
-  // router.push('/payment-method')
+  // Optionally also store in localStorage
+  localStorage.setItem("shippingAddress", JSON.stringify(values));
+
+  router.push("/payment-method");
   }
 
   return (

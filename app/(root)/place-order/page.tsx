@@ -14,19 +14,21 @@ export const metadata: Metadata = {
 }
 
 const PlaceOrderPage = async () => {
-   const cart = await getMyCart();
+   const cart = await getMyCart(); 
    const session = await auth();
    const userId = session?.user?.id;
 
    if (!userId) throw new Error ('user not found');
 
    const user = await getUserById(userId);
+   const userAddress = user.address as shippingAddress;
+
+   console.log(userAddress, 'adresssss')
 
    if(!cart || cart.items.length === 0) redirect('/cart');
    if(!user.address) redirect('/shipping-address');
    if(!user.paymentMethod) redirect('/payment-method');
 
-   const userAddress = user.address as shippingAddress;
 
     return ( <>
     <CheckoutSteps current={3} />
@@ -36,10 +38,10 @@ const PlaceOrderPage = async () => {
             <Card>
                 <CardContent className="p-4 gap-4">
                     <h2 className="text-xl pb-4">Shipping Address</h2>
-                    <p>{userAddress.fullName}</p>
+                    <p>{userAddress?.fullName}</p>
                     <p>
-                        {userAddress.streetAddress}, {userAddress.city} {' '}
-                        {userAddress.postalCode}, {userAddress.country} {' '}
+                        {userAddress?.streetAddress}, {userAddress?.city} {' '}
+                        {userAddress?.postalCode}, {userAddress?.country} {' '}
                     </p>
                     <div className="mt-3">
                         <Link href="/shipping-address">

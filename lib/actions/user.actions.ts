@@ -103,3 +103,34 @@ export async function updateUserPaymentMethod(data: z.infer<typeof paymentMethod
    
    }
 }
+
+
+// Update user's shipping address
+export async function updateUserShippingAddress(data: z.infer<typeof shippingAddressSchema>) {
+   try {
+     const session = await auth();
+     const currentUser = await prisma.user.findFirst({
+       where: { id: session?.user?.id }
+     });
+ 
+     if (!currentUser) {
+       throw new Error("User not found");
+     }
+ 
+     const address = shippingAddressSchema.parse(data);
+ 
+     const updatedUser = await prisma.user.update({
+       where: { id: currentUser.id },
+       data: {
+         address
+       }
+     });
+ 
+     return { success: true, message: "Shipping address updated successfully" };
+   } catch (error) {
+     return { success: false, message: formatError(error) };
+   }
+ }
+ 
+
+ 
