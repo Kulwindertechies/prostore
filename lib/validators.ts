@@ -100,3 +100,4 @@ export const insertOrderItemSchema = z.object({
   price: currency,
   qty: z.number(),
 });
+

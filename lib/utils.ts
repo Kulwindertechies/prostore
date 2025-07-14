@@ -70,3 +70,43 @@ if (typeof amount === 'number'){
   return 'NAN';
 }
 }
+
+// shorten UUID
+
+export function formatId(id: string){
+  return `..${id.substring(id.length - 6)}`;
+}
+
+// Format date and time
+export const formatDateTime = (dateString: Date) =>{
+  const dateTimeOptions: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  };
+  const dateOptions : Intl.DateTimeFormatOptions = {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  };
+const timeOptions: Intl.DateTimeFormatOptions = {
+  hour: 'numeric',
+  minute: 'numeric',
+  hour12: true,
+};
+ 
+const formattedDateTime: string = new Date(dateString).toLocaleDateString('en-US', dateTimeOptions);
+const formattedDate: string = new Date(dateString).toLocaleDateString('en-US', dateOptions);
+const formattedTime: string = new Date(dateString).toLocaleTimeString('en-US', timeOptions);
+
+return {
+  dateTime: formattedDateTime,
+  dateOnly: formattedDate,
+  timeOnly: formattedTime,
+};
+
+};
