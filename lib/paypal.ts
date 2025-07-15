@@ -1,9 +1,46 @@
 const base = process.env.PAYPAL_API_URL || "https://api-m.sandbox.paypal.com";
 
-export const paypal = {};
+export const paypal = {
+    createOrder: async function createOrder(price: number){
+        const accessToken = await generateAccessTokens();
+        const url = `${base}/v2/checkout/orders`;
+        
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                intent: 'CAPTURE',
+                purchase_units: [{
+                    amount: {
+                        currency_code: 'USD',
+                        value: price,
+                    }
+                }]
+            })
+        });
+
+    return handleResponse(response);
+    },
+    capturePayment: async function capturePayment(orderId: string) {
+        const accessToken = await generateAccessTokens();
+        const url = `${base}/v2/checkout/orders/${orderId}/capture`;
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        return handleResponse(response);
+    },
+};
 
 // generate a token for PayPal API
- async function generateAccessToken() {
+ export async function generateAccessTokens() {
     const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET } = process.env;
     const auth = Buffer.from(`${PAYPAL_CLIENT_ID}:${PAYPAL_APP_SECRET}`).toString('base64');
 
@@ -16,14 +53,16 @@ export const paypal = {};
         },
     });
 
-    if(response.ok) {
-        const jsondata = await response.json();
+        const jsondata = await handleResponse(response);
         return jsondata.access_token;
-    }else{
+}
+
+ async function handleResponse(response: Response) {
+    if(response.ok) {
+        return response.json();
+    } else {
         const errorText = await response.text();
         throw new Error(errorText);
     }
-}
 
-export {generateAccessToken};
- 
+ }

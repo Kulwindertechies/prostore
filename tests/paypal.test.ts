@@ -1,9 +1,8 @@
-import { generateAccessToken } from "@/lib/paypal";
+import { generateAccessTokens } from '../lib/paypal';
 
-// test the generateAccessToken function
 test('generate token from paypal', async () => {
-    const tokenResponse = await generateAccessToken();
+    const tokenResponse = await generateAccessTokens();
     console.log(tokenResponse);
-    expect(tokenResponse).toBe('string');
+    expect(typeof tokenResponse).toBe('string');
     expect(tokenResponse.length).toBeGreaterThan(0);
-})
+});
