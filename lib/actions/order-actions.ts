@@ -10,7 +10,6 @@ import { prisma } from "@/db/prisma";
 import { CartItem, PaymentResult } from "@/types";
 import { paypal } from "../paypal";
 import { revalidatePath } from "next/cache";
-import { th } from "zod/v4/locales";
 
 
 // create order and create the order items
