@@ -100,10 +100,16 @@ export const insertOrderItemSchema = z.object({
   price: currency,
   qty: z.number(),
 });
-
+// schema for the paypal paymentresult 
 export const paymentResultSchema = z.object({
   id: z.string(),
   status: z.string(), 
   email_address: z.string(),
   pricePaid: z.string(),
 });
+
+// schema for updating the profile
+export const updateProfileSchema = z.object({
+  name: z.string().min(3, 'Name must be at least'),
+  email: z.string().min(3, 'Email must be at least')
+})

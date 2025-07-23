@@ -102,6 +102,10 @@ export const config = {
          }
         }
       }
+      // Handle seeeion update
+      if(session?.user.name && trigger === 'update'){
+        token.name = session.user.name;
+      }
 
       return token;
     },

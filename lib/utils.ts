@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import qs from 'query-string';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -18,7 +19,7 @@ export function formatNumberwithDecimalPlaces(num: number): string {
                                                                                                                                                                  
 // Format errors
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export  function formatError(error: any) {
+export function formatError(error: any) {
   if (error.name === "ZodError") {
     //handle zod error
     const filedErrors = Object.keys(error.errors).map(
@@ -121,4 +122,26 @@ export const formatDateTime = (dateString: Date) => {
     timeOnly: formattedTime,
   };
 };
+
+// form the pagination link
+export function formUrlQuery({
+  params,
+  key,
+  value,
+}:{
+  params:string,
+  key:string,
+  value: string | null;
+}){
+  const query = qs.parse(params);
+  query[key] = value;
+return qs.stringifyUrl(
+  {
+    url: window.location.pathname,
+    query,
+  },
+  {
+    skipNull: true,
+  });
+}
 
