@@ -11,7 +11,6 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import Pagination from '@/components/shared/pagiantion';
-import { requireAdmin } from '@/lib/auth-guard';
 
 export const metadata: Metadata = {
   title: 'My Orders',
@@ -20,7 +19,7 @@ export const metadata: Metadata = {
 const OrdersPage = async (props: {
   searchParams: Promise<{ page: string }>;
 }) => {
-  await requireAdmin();
+
   const { page } = await props.searchParams;
 
   const orders = await getMyOrders({

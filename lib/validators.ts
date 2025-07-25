@@ -13,7 +13,7 @@ export const insertProductSchema = z.object({
   name: z.string().min(3, 'Name is required'),
   slug: z.string().min(3, 'Slug is required'),
   category: z.string().min(3, 'Category is required'),
-  brand: z.string().min(3, 'Brand is required').nullable(), // ✅ FIXED
+  brand: z.string().min(3, 'Brand is required').nullable(),
   description: z.string().min(3, 'Description is required'),
   stock: z.coerce.number(),
   images: z.array(z.string()).min(1, 'At least one image is required'),
@@ -113,3 +113,9 @@ export const updateProfileSchema = z.object({
   name: z.string().min(3, 'Name must be at least'),
   email: z.string().min(3, 'Email must be at least')
 })
+
+// Schema to update users
+export const updateUserSchema = updateProfileSchema.extend({
+  id: z.string().min(1, 'ID is required'),
+  role: z.string().min(1, 'Role is required'),
+});
