@@ -10,11 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import Pagination from '@/components/shared/pagination';
+import Pagination from '@/components/shared/pagiantion';
 import DeleteDialog from '@/components/shared/delete-dialog';
 import { requireAdmin } from '@/lib/auth-guard';
 
-const AdminProductsPage = async (props: {
+const AdminProductsPage = async (props: {  
   searchParams: Promise<{
     page: string;
     query: string;
